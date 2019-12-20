@@ -1,9 +1,6 @@
 #!/usr/bin/env groovy
 
-def call(Map stageParams) {
-    buildResult = stageParams.buildResult
-    success_channel = stageParams.successChannel
-    fail_channel = stageParams.failChannel
+def call(String buildResult) {
 
     if ( buildResult == "SUCCESS" ) {
         slackSend   color: "good", 

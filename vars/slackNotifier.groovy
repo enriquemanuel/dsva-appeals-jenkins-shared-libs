@@ -2,8 +2,8 @@
 
 def call(Map stageParams) {
     buildResult = stageParams.buildResult
-    success_channel = stageParams.success_channel
-    fail_channel = stageParams.fail_channel
+    success_channel = stageParams.successChannel
+    fail_channel = stageParams.failChannel
 
     if ( buildResult == "SUCCESS" ) {
         slackSend   color: "good", 

@@ -1,10 +1,11 @@
 #!/usr/bin/env groovy
 
-def call(String buildResult) {
-
+def call(Map stageParams) {
+    buildResult = stageParams.buildResult
     if ( buildResult == "SUCCESS" ) {
         slackSend   color: "good", 
                     message: "Job: ${env.JOB_NAME} with buildnumber ${env.BUILD_NUMBER} was successful",
+
                     
     }
     else if( buildResult == "FAILURE" ) { 

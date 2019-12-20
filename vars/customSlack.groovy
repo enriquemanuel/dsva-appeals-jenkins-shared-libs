@@ -2,22 +2,28 @@
 
 def call(Map stageParams) {
     buildResult = stageParams.buildResult
-    if ( buildResult == "SUCCESS" ) {
-        slackSend   color: "good", 
-                    message: "Job: ${env.JOB_NAME} with buildnumber ${env.BUILD_NUMBER} was successful",
-                    channel: stageParams.channel
+    try{
+        if ( buildResult == "SUCCESS" ) {
+            slackSend   color: "good", 
+                        message: "Job: ${env.JOB_NAME} with buildnumber ${env.BUILD_NUMBER} was successful",
+                        channel: stageParams.channel
+                        
+        }
+        else if( buildResult == "FAILURE" ) { 
+            slackSend   color: "danger", 
+                        message: "Job: ${env.JOB_NAME} with buildnumber ${env.BUILD_NUMBER} was failed"
+        }
+        else if( buildResult == "UNSTABLE" ) { 
+            slackSend   color: "warning", 
+                        message: "Job: ${env.JOB_NAME} with buildnumber ${env.BUILD_NUMBER} was unstable"
+        } 
+        else {
+            slackSend   color: "danger", 
+                        message: "Job: ${env.JOB_NAME} with buildnumber ${env.BUILD_NUMBER} its resulat was unclear"
+                        
+        }
     }
-    else if( buildResult == "FAILURE" ) { 
-        slackSend   color: "danger", 
-                    message: "Job: ${env.JOB_NAME} with buildnumber ${env.BUILD_NUMBER} was failed"
-    }
-    else if( buildResult == "UNSTABLE" ) { 
-        slackSend   color: "warning", 
-                    message: "Job: ${env.JOB_NAME} with buildnumber ${env.BUILD_NUMBER} was unstable"
-    } 
-    else {
-        slackSend   color: "danger", 
-                    message: "Job: ${env.JOB_NAME} with buildnumber ${env.BUILD_NUMBER} its resulat was unclear"
-                    
+    catch(err) {
+                println "Failed to notify Slack: ${err}"
     }
 }
